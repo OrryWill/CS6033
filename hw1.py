@@ -67,7 +67,26 @@ def greedy(road_map, start, goal, sld):
 
 # DFS Algorithm
 def dfs(graph, start, goal):
-    return None, 0, 0
+    stack = [(start, [start], 0)]
+    visited = set()
+
+    while stack:
+        (city, path, cost) = stack.pop()
+
+        if city not in visited:
+            if city == goal:
+                return path, cost, visited
+
+            visited.add(city)
+
+            # Get neighbors safely, defaulting to an empty list
+            neighbors = road_map.get(city, [])
+            print("1")
+            for neighbor, distance  in neighbors:  # Unpacking the tuple
+                print(neighbor)
+                stack.append((neighbor, path + [neighbor], cost + distance))
+
+    return None  # Return None if the goal is not found
 
 def a_star(road_map, start, goal, heuristic_func):
     priority_queue = [(heuristic_func(start, goal, road_map), start, [start], 0)]
